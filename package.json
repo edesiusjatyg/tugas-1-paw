@@ -1,13 +1,14 @@
 {
   "name": "paw",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "homepage": "https://github.com/edesiusjatyg/tugas-1-paw",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "author": "Edesius Jaty Giovanni",
   "license": "ISC",
@@ -16,5 +17,8 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^4.2.1",
     "vite": "^7.3.1"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
   }
 }
