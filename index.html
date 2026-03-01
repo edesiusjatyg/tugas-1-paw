@@ -1,12 +1,255 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
-        <h1>Hello World</h1>
-    </body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0xfast9 | Edesius Jaty Giovanni</title>
+    <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="">
+    <div class="flex flex-row py-6 px-12 justify-between items-center sticky top-0 z-50 bg-gray-900/0 backdrop-blur-sm shadow-sm">
+        <div>
+            <a href="index.html" id="logo"
+                class="text-gray-900 font-mono text-2xl font-bold tracking-widest hover:text-gray-700 transition-colors inline-block w-32">edsgiovanni</a>
+        </div>
+        <div class="space-x-6 text-sm font-medium">
+            <a href="index.html" class="text-gray-900 hover:text-sky-800 transition-all">Home</a>
+            <a href="about.html" class="text-gray-500 hover:text-sky-800 transition-all">About</a>
+        </div>
+    </div>
+
+    <!-- hero -->
+    <div class="relative flex flex-col justify-center items-center min-h-[85vh] p-8 lg:p-32 overflow-hidden">
+
+        <canvas id="swarmCanvas" class="absolute inset-0 w-full h-full z-0 opacity-70"></canvas>
+
+        <div class="relative z-10 flex flex-col items-center text-center space-y-8 max-w-6xl mt-12">
+            <h1 id="nameHero" class="text-6xl md:text-7xl lg:text-8xl text-gray-900 font-light tracking-tight"
+                style="font-family: 'Google Sans', sans-serif;">
+                Edesius Jaty Giovanni
+            </h1>
+            <div class="space-y-6 text-lg md:text-xl text-gray-700 font-light max-w-2xl"
+                style="font-family: 'Google Sans', sans-serif;">
+                <p class="leading-relaxed text-sm md:text-base">
+                    Hi, I'm an aspiring Startup Founder. I'm currently running a Web Development Agency named "Ventra
+                    Indonesia" while also enrolling in Computer Science.
+                </p>
+                <p class="leading-relaxed text-sm md:text-base">
+                    I'm passionate about building complex systems and solving real-world problems. Currently focused on
+                    <span class="text-gray-900 font-semibold">swarm intelligence</span>.
+                </p>
+            </div>
+            <div class="w-full flex justify-center">
+                <a href="https://github.com/edesiusjatyg"
+                    class="inline-flex items-center px-8 py-2 border border-gray-700  hover:border-white fill-gray-950 hover:fill-white text-gray-950 hover:text-white hover:bg-gray-950 transition-all rounded-full tracking-wider text-sm font-medium backdrop-blur-sm"
+                    target="_blank" style="font-family: 'Google Sans', sans-serif;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-github mr-2" viewBox="0 0 16 16">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+                    </svg>
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const letters = "01";
+        const logoText = "0xfast9";
+        const nameHeroText = "Edesius Jaty Giovanni";
+        const logoElement = document.getElementById("logo");
+        const nameHeroElement = document.getElementById("nameHero");
+
+        function createTextAnimator(targetElement, targetText) {
+            let interval = null;
+            let timeout = null;
+
+            function animate() {
+                let iteration = 0;
+                clearInterval(interval);
+                clearTimeout(timeout);
+
+                interval = setInterval(() => {
+                    targetElement.innerText = targetText
+                        .split("")
+                        .map((letter, index) => {
+                            if (index < iteration) {
+                                return targetText[index];
+                            }
+                            if (targetText[index] === " ") return " ";
+                            return letters[Math.floor(Math.random() * 2)];
+                        })
+                        .join("");
+
+                    if (iteration >= targetText.length) {
+                        clearInterval(interval);
+                        targetElement.innerText = targetText;
+
+                        timeout = setTimeout(animate, 5000 + Math.random() * 2000);
+                    }
+
+                    iteration += 1 / 3;
+                }, 40);
+            }
+
+            animate();
+
+            if (targetElement.id === 'logo') {
+                targetElement.addEventListener("mouseover", animate);
+            }
+        }
+
+        createTextAnimator(logoElement, logoText);
+        createTextAnimator(nameHeroElement, nameHeroText);
+
+        const canvas = document.getElementById('swarmCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let particlesArray;
+        let mouse = {
+            x: null,
+            y: null,
+            radius: 150
+        }
+
+        window.addEventListener('mousemove', function (event) {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = event.x - rect.left;
+            mouse.y = event.y - rect.top;
+        });
+
+        window.addEventListener('mouseleave', function () {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        function resizeCanvas() {
+            const parent = canvas.parentElement;
+            canvas.width = parent.clientWidth;
+            canvas.height = parent.clientHeight;
+            init();
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x;
+                this.y = y;
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.size = size;
+                this.color = color;
+                this.baseX = this.x;
+                this.baseY = this.y;
+                this.density = (Math.random() * 30) + 1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+
+            update() {
+                if (this.x > canvas.width || this.x < 0) {
+                    this.directionX = -this.directionX;
+                }
+                if (this.y > canvas.height || this.y < 0) {
+                    this.directionY = -this.directionY;
+                }
+
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                let forceDirectionX = dx / distance;
+                let forceDirectionY = dy / distance;
+
+                let maxDistance = mouse.radius;
+                let force = (maxDistance - distance) / maxDistance;
+                let directionX = forceDirectionX * force * this.density;
+                let directionY = forceDirectionY * force * this.density;
+
+                if (distance < mouse.radius && mouse.x !== null) {
+                    this.x -= directionX;
+                    this.y -= directionY;
+                } else {
+                    if (this.x !== this.baseX) {
+                        let dx = this.baseX - this.x;
+                        this.x += dx / 20;
+                    }
+                    if (this.y !== this.baseY) {
+                        let dy = this.baseY - this.y;
+                        this.y += dy / 20;
+                    }
+                }
+
+                this.baseX += this.directionX;
+                this.baseY += this.directionY;
+                this.x += this.directionX;
+                this.y += this.directionY;
+
+                this.draw();
+            }
+        }
+
+        function init() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 6000;
+            if (numberOfParticles > 150) numberOfParticles = 150;
+
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2) + 1;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * 2) - 1;
+                let directionY = (Math.random() * 2) - 1;
+
+                const colors = ['#ffffff', '#38bdf8', '#0ea5e9', '#0284c7'];
+                let color = colors[Math.floor(Math.random() * colors.length)];
+
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+            }
+        }
+
+        function animateConnections() {
+            let opacityValue = 1;
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
+                        + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+
+                    if (distance < (canvas.width / 7) * (canvas.height / 7)) {
+                        opacityValue = 1 - (distance / 10000);
+                        ctx.strokeStyle = `rgba(56, 189, 248, ${opacityValue * 0.4})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+            animateConnections();
+        }
+
+        setTimeout(() => {
+            resizeCanvas();
+            animate();
+        }, 100);
+
+    </script>
+</body>
+
 </html>
